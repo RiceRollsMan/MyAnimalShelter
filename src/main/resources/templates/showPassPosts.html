@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="referrer" content="no-referrer" />
+</head>
+<script src="/js/jquery-3.6.0.js"></script>
+<script>
+    function goDetailed(postPicUrl,postId,postTitle,postContext,postUser){
+        alert("xxx");
+        $.get({
+            url:"/details"
+            // data:{"postPicUrl":postPicUrl,
+            //     "postId":postId,
+            //     "postTitle":postTitle,
+            //     "postContext":postContext,
+            //     "postUser":postUser
+            // },
+            // success:function (data){
+            //     window.open("/details.html")
+            // }
+        })
+    }
+    function test(){
+        alert("xxx");
+    }
+</script>
+<script>
+    function iLikeThisPost(postId){
+
+    }
+</script>
+<body>
+<div th:each="passPosts: ${passPosts}" style="border: 1px solid black" >
+<a th:href= "'/details?postPicUrl='+${passPosts.postPicUrl}+
+           '&postId='+${passPosts.postId}+
+           '&postTitle='+${passPosts.postTitle}+
+           '&postContext='+${passPosts.postContext}+
+           '&postUser='+${passPosts.postUser}+
+           '&postLikeCounts='+${passPosts.likeCounts}
+">
+    <p><img th:src="${passPosts.postPicUrl}" alt="xxx"></p>
+    <p th:text="${passPosts.postId}"></p>
+    <p th:text="${passPosts.postTitle}"></p>
+    <p th:text="${passPosts.postContext}"></p>
+    <p th:text="${passPosts.postUser}"></p>
+    <p th:text="${passPosts.likeCounts}"></p>
+
+</a>
+</div>
+
+</body>
+</html>

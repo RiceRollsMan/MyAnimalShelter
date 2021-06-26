@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <meta name="referrer" content="no-referrer" />
+</head>
+<script src="/js/jquery-3.6.0.js"></script>
+<script src="/js/getUrlParam.js"></script>
+
+<script>
+  window.onload=function(){
+    getAnimal()
+    getPosition()
+    getUsernameAndAvator()
+  }
+  function getPosition(){
+    $.get({
+      url:"/user/getPosition",
+      success:function (data){
+        if(data==1||data==2){
+          let adminControl=document.getElementById("adminControl")
+          adminControl.style.display="block"
+        }
+      }
+    })
+  }
+  function doDonate(){
+    $.get({
+      url:"/user/toBodhisattva",
+      data:{"id":GetQueryString("id"),
+      "money":$("input[name='money']:checked").val()
+      },
+      success: function (data){
+        alert("感谢您的捐助")
+      },
+      error:function(){
+        alert("请选择捐助金额")
+      }
+    })
+  }
+  function getAnimal(){
+    $.get({
+      url:"../animals/getNameAndPic",
+      data:{"id":GetQueryString("id")},
+      success: function (data){
+        $("#animalName").html(data.split(";")[0])
+        let animalPic=document.getElementById("animalPic")
+        animalPic.src=data.split(";")[1]
+      },
+      error:function (){
+        alert("error")
+      }
+    })
+  }
+  function getUsernameAndAvator(){
+    $.get({
+      url:"/user/getUsernameAndAvator",
+      success:function (data){
+        $("#topUsername").html(data.split(";")[0])
+        let topAvator=document.getElementById("topAvator")
+        topAvator.src=data.split(";")[1]
+      }
+    })
+  }
+</script>
+<style>
+  .donationFace{
+    margin:0px auto auto;
+    width: 700px;
+    height: 500px;
+    background-color: #009fe9;
+  }
+  *{
+    margin: 0;
+    padding: 0;
+  }
+  .top{
+
+    height: 5%;
+    justify-content:center;
+    vertical-align: middle;
+    font-weight: 600;
+    width: 100%;
+    border:2px solid black;
+    position: fixed;
+    font-size: 22px;
+    z-index: 3;
+    background-color: black;
+  }
+</style>
+<body>
+
+<div class="top">
+  <a href="/testMain">
+    <img src="https://i0.hdslb.com/bfs/face/50d88bdca85f54280463cdb7126201565be7a52b.jpg@128w_128h_1o.webp" width="100px" height="35px" style="float:left" alt="">
+  </a>
+  <!--    <span><a href=""><button  style="color: white;height: 35px;width: 70px;border: none;outline: none;background-color: black;font-size: 22px;">反馈</button></a></span>-->
+  <a href="/goPerson" target="_blank">
+    <span style="float: right;margin-right: 30px;"><button style="color: white;height: 35px;width: 100px;border: none;outline: none;background-color: black;font-size: 18px;" id="topUsername"></button></span>
+    <img src="" alt="" id="topAvator" style="border-radius:35px;height: 35px;width: 35px;float: right;margin-right: 15px;">
+  </a>
+  <a href="/goAdminController" target="_blank">
+    <button id="adminControl" style="display: none;float: right;color: white;margin-left: 70px;margin-right: 30px;height: 35px;width: 130px;background-color: #ff6a00;outline: none;border: none;font-size: 18px">管理员控制台</button>
+  </a>
+  <!--    <span style="float: right;"><button style="color: white;height: 35px;width: 70px;border: none;outline: none;background-color: black;font-size: 22px;cursor: auto">天气</button></span>-->
+  <!--    <span style="float: right;padding-right: 50px;"><button style="color: white;height: 35px;width: 70px;border: none;outline: none;background-color:black;font-size: 22px;cursor: auto">城市</button></span>-->
+</div>
+
+
+<div style="height: 70px"></div>
+<div class="donationFace" >
+  <div style="padding: 40px"><img src="" id="animalPic" style="background-color: #5a5a5a;width: 100px;height: 100px;border-radius: 50px" alt="">
+    <span id="animalName"></span>
+  </div>
+  <div class="money" style="padding-left: 40px;font-size: 20px">捐助金额&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="radio" name="money" value="1">1元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="radio" name="money" value="5">5元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="radio" name="money" value="10">10元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </div>
+  <div class="code" style="padding-left: 230px">
+    <img src="" style="background-color: #5a5a5a;width: 200px;height: 200px" alt="">
+  </div>
+  <div class="button" style="padding-left: 250px;padding-top: 30px">
+    <button style="height: 30px;width:150px" onclick="doDonate()">捐助</button></div>
+</div>
+</body>
+</html>

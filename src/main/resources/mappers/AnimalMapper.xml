@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ft.animalshelter.mapper.AnimalMapper">
+    <select id="queryAll" resultType="com.ft.animalshelter.pojo.Animals">
+        select * from animals;
+    </select>
+    <select id="queryById" resultType="com.ft.animalshelter.pojo.Animals">
+        select * from animals where id=#{id}
+    </select>
+    <select id="addAnimal" parameterType="com.ft.animalshelter.pojo.Animals">
+        insert into animals(id,uploadUsername,animalName,gender,avatorUrl,varietyId,introduction)
+        values(#{id},#{uploadUsername},#{animalName},#{gender},#{avatorUrl},#{varietyId},#{introduction})
+    </select>
+    <select id="getCounts" resultType="int">
+        select count(*) from animals;
+    </select>
+    <select id="showAnimals" resultType="com.ft.animalshelter.pojo.Animals">
+        select * from animals where approvalStatus = 0
+    </select>
+    <select id="showPassAnimals" resultType="com.ft.animalshelter.pojo.Animals">
+        select * from animals where approvalStatus = 1
+    </select>
+    <select id="showDontPassAnimals" resultType="com.ft.animalshelter.pojo.Animals">
+        select * from animals where approvalStatus = 2
+    </select>
+    <update id="approvalAnimals">
+        update animals
+        set approvalStatus = #{approvalStatus},approvalUsername=#{approvalUsername}
+        where id=#{id};
+    </update>
+    <select id="fuzzyQueryAnimals" resultType="com.ft.animalshelter.pojo.Animals">
+        select * from animals where animalName like '%${keyWords}%' and approvalStatus=1
+    </select>
+    <select id="getAnimalsPicWalls" resultType="String">
+        select picUrl from picwall where animalId=#{id}
+    </select>
+
+    <resultMap id="nameAndAvatorUrlMap" type="HashMap" >
+        <result column="avatorUrl" property="avatorUrl" jdbcType="VARCHAR" />
+        <result column="animalName" property="animalName" jdbcType="VARCHAR" />
+    </resultMap>
+    <select id="getNameAndPic" resultMap="nameAndAvatorUrlMap" parameterType="int" >
+        select animalName,avatorUrl from animals where id=#{id}
+    </select>
+
+    <select id="showMyFollowAnimals" resultType="com.ft.animalshelter.pojo.Animals">
+        select * from animals where id in (select animalsId from animalsFollower where username = #{username});
+    </select>
+
+    <select id="getPassCounts" resultType="int">
+        select count(*) from animals where approvalStatus=1
+    </select>
+</mapper>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer" />
+    <title>Title</title>
+    <script src="/js/jquery-3.6.0.js"></script>
+    <script>
+        let username_existFlag=0;
+        let username_match=0;
+        let password_confirmFlag=0;
+        let password_match=0;
+        window.onload=function(){
+        }
+        function username_exist(){
+            $.get({
+            url:"/user/username_exist",
+                data:{"username":$("#username").val()},
+                success: function (data) {
+                    if (data === "false") {
+                        $("#userNameExist").html("用户名已存在");
+                        username_existFlag = 0;
+                    }
+                    else
+                    {
+                        $("#userNameExist").html("");
+                        username_existFlag = 1;
+                    }
+                }
+            })
+        }
+
+        function password_confirm(){
+            if($("#password").val()!==$("#password_confirm").val()) {
+                $("#passwordConfirm").html("两次密码输入不一致，请确认");
+                password_confirmFlag=0;
+            }
+            else{
+                $("#passwordConfirm").html("");
+                password_confirmFlag=1;
+            }
+        }
+        function go_signUp(){
+            $.get({
+                url:"/user/toUser",
+                data:{
+                    "avatorUrl":$("#avatorUrl")[0].src,
+                    "username":$("#username").val(),
+                    "password":$("#password").val(),
+                     "gender":$("input[name='gender']").val(),
+                     //"birth":$("#birth").val(),
+                    "mail":$("#mail").val(),
+                    "collegeId":$("#collegeId").val(),
+                    "introduction":$("#introduction").val(),
+                },
+                success:function (data){
+                    if(data=="true")
+                        window.location.href="/signUpOk"
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<!--
+数据字典
+头像 id avatorUrl
+用户名 id  username
+提醒用户名存在span id userNameExist
+密码 id password
+确认密码 id password_confirm
+提醒用户确认密码是否一直span id passwordConfirm
+性别 id gender
+生日 id bitrh
+邮箱 id mail
+大学ID id collegeId
+个人介绍 id  introduction
+-->
+<img src="https://profile.csdnimg.cn/B/A/A/3_du_du1" alt="xx" id="avatorUrl"><br>
+用户名：<input type="text" id="username" onblur="username_exist()"><span id="userNameExist"></span><br>
+密码：<input type="password" id="password"><br>
+确认密码：<input type="password" id="password_confirm" onblur="password_confirm()"><span id="passwordConfirm"></span><br>
+性别：<input type="radio" value="0" name="gender">女<input type="radio" value="1" name="gender">男 <br>
+生日：<input type="date" id="birth"><br>
+邮箱：<input type="email" id="mail"><br>
+大学ID：<select name="college" id="collegeId">
+    <option value="0">成都信息工程大学</option>
+    <option value="1">四川大学</option>
+</select>
+个人介绍：<input type="text" id="introduction"><br>
+<input type="button" id="signup_button" value="注册" onclick="go_signUp()">
+<script>
+    // 用户名正则，4到16位（字母，数字，下划线，减号）
+    $("#userName").change(function () {
+        let uPattern = /^[a-zA-Z0-9_-]{4,16}$/;
+        let uerName = $("#userName").val()
+        if (!uPattern.test(uerName)) {
+        } else {
+        }
+    })
+
+    //密码强度正则，最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符
+    $("#password").change(function () {
+        let pPattern = /^(\w){6,20}$/;
+        let userPassword = $("#userPassword").val()
+        if (!pPattern.test(userPassword)) {
+            alert("no")
+        }
+        else {
+        }
+    })
+    // $("#signup_button").attr('disabled', false);
+    function canSignUp() {
+        if (username_existFlag==1 && username_match==1 && password_confirmFlag==1 && password_match==1 && $("input[name='gender']:checked") && $("#birth")
+                .val() != null && $("#mail").val() != null && $("#collegeId").val() != null) {
+            $("#signup_button").attr('disabled', false);
+        }
+    }
+    </script>
+</body>
+</html>

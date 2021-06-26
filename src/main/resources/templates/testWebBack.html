@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="/js/jquery-3.6.0.js"></script>
+  <script src="/js/getUrlParam.js"></script>
+  <style>
+    html,body{
+      height: 98%;
+      width: 98%;
+    }
+    *{
+      margin:0
+    }
+  </style>
+  <script>
+    window.onload=function(){
+      getUserCounts()
+      getAnimalCounts()
+      getPostCounts()
+      getDonationCounts()
+    }
+    function getUserCounts(){
+      $.get({
+        url:"/user/getUserCounts",
+        success: function(data){
+          $("#userCounts").html(data)
+        }
+      })
+    }
+    function getPostCounts(){
+      $.get({
+        url:"/post/getPostCounts",
+        success: function(data){
+          $("#postCounts").html(data)
+        }
+      })
+    }
+    function getAnimalCounts(){
+      $.get({
+        url:"/animals/getAnimalCounts",
+        success: function(data){
+          $("#animalCounts").html(data)
+        }
+      })
+    }
+    function getDonationCounts(){
+      $.get({
+        url:"/user/getDonationCounts",
+        success: function(data){
+          $("#donationCounts").html(data)
+        }
+      })
+    }
+  </script>
+</head>
+<body>
+<div class="user_info" style="width: 98%;height: 30%">
+  <table style="width: 100%;height: 100%">
+    <tr>
+      <td><div style="margin: auto;height: 150px;width: 150px;border: 1px solid black;border-radius: 100px"><span id="userCounts"></span></div></td>
+      <td><div style="margin: auto;height: 150px;width: 150px;border: 1px solid black;border-radius: 100px"><span id="postCounts"></span></div></td>
+      <td><div style="margin: auto;height: 150px;width: 150px;border: 1px solid black;border-radius: 100px"><span id="animalCounts"></span></div></td>
+      <td><div style="margin: auto;height: 150px;width: 150px;border: 1px solid black;border-radius: 100px"><span id="donationCounts"></span></div></td>
+    </tr>
+  </table>
+</div>
+<hr>
+<div style="display: flex;position: relative;">
+  <div class="donation_info" style="position: relative;display: flex;flex-direction: column;height: 70vh;width: 50vw;margin: auto">
+    <div style="height: 10%;width:100%;border: 1px solid black;margin: auto">菩萨榜</div>
+    <div style="height: 90%;display: flex;position: relative;border: 1px solid black">
+      <div style="width: 50%;height: 100%;border: 1px solid black">
+        <table th:each="getTopFiveBodhisattvaName:${getTopFiveBodhisattvaName}">
+          <tr th:text="${getTopFiveBodhisattvaName}"></tr>
+          <tr th:text="${getTopFiveBodhisattvaName}"></tr>
+          <tr th:text="${getTopFiveBodhisattvaName}"></tr>
+          <tr th:text="${getTopFiveBodhisattvaName}"></tr>
+          <tr th:text="${getTopFiveBodhisattvaName}"></tr>
+        </table>
+      </div>
+<!--      <div style="width: 50%;height: 100%;border: 1px solid black">-->
+<!--        <table th:each="getTopFiveBodhisattvaMoney:${getTopFiveBodhisattvaMoney}">-->
+<!--          <tr th:text="${getTopFiveBodhisattvaMoney[0]}"></tr>-->
+<!--          <tr th:text="${getTopFiveBodhisattvaMoney[1]}"></tr>-->
+<!--          <tr th:text="${getTopFiveBodhisattvaMoney[2]}"></tr>-->
+<!--          <tr th:text="${getTopFiveBodhisattvaMoney[3]}"></tr>-->
+<!--          <tr th:text="${getTopFiveBodhisattvaMoney[4]}"></tr>-->
+<!--        </table>-->
+<!--      </div>-->
+    </div>
+</div>
+</body>
+</html>

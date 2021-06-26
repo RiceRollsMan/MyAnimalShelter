@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-3.6.0.js"></script>
+    <script>
+        window.onload=function(){
+            getCounts();
+        }
+        function getCounts(){
+            $.get({
+                url:"/user/userCounts",
+                success: function(data){
+                    alert(data)
+                    $("#userCounts").html(data);
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+
+<!--
+数据字典
+跳转主页按钮 id goMain
+-->
+恭喜成为第 <span id="userCounts"></span>位会员
+<input type="button" id="goMain" onclick="window.location.href='/main'" value="进入后台页面">
+</body>
+</html>

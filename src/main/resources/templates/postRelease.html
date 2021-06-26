@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-3.6.0.js"></script>
+    <script>
+        function release(){
+    $.get({
+        url: "/post/toPost",
+        data: {"postTitle":$("#postTitle").val(),
+            "postPicUrl":$("#postPicUrl")[0].src,
+            "postContext":$("#postContext").val()
+        },
+        success:function (data){
+            if(data=="true"){
+                alert("发布成功，静待管理员审核");
+                window.location.href="/postRelease"
+            }
+        }
+    })
+        }
+    </script>
+</head>
+<body>
+<span th:text="${session.user}"></span><br>
+this is postRelease html <br>
+<img src="https://profile.csdnimg.cn/B/A/A/3_du_du1" alt="xx" id="postPicUrl"><br>
+<input type="text" id="postTitle"><br>
+<input type="text" id="postContext"><br>
+<input type="button" id="releaseButton" value="发布" onclick="release()">
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="referrer" content="no-referrer" />
+</head>
+<script src="/js/jquery-3.6.0.js"></script>
+<script>
+    function pass(postId){
+       $.get({
+           url: "/post/approvalPost",
+           data:{"postId":postId,
+               "postStatus":1
+           },
+           success:function (){
+               window.location.href="/post/showPosts"
+           }
+       })
+    }
+    function reject(postId){
+        $.get({
+            url: "/post/approvalPost",
+            data:{"postId":postId,
+                "postStatus":2
+            },
+            success:function (){
+                window.location.href="/post/showPosts"
+            }
+        })
+    }
+</script>
+<body>
+<div th:each="posts: ${posts}" style="border: 1px solid black">
+    <p th:text="${posts.postTitle}" style="font-size: 20px;font-weight: bold"></p>
+    <p th:text="${posts.postContext}" style="font-size: 12px"></p>
+    <p th:text="${posts.postUser}" style="font-size: 16px;font-weight: bold"></p>
+    <p th:text="${posts.postDate}" style="font-size: 16px;font-weight: bold"></p>
+    <input type="button" th:onclick="'javascript: pass('+${posts.postId}+')'" name="passButton" value="pass">
+    <input type="button" th:onclick="'javascript: reject('+${posts.postId}+')'" name="rejectButton" value="reject">
+</div>
+</body>
+</html>

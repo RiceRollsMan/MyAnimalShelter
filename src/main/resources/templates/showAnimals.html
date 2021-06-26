@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <meta name="referrer" content="no-referrer" />
+    <script src="/js/jquery-3.6.0.js"></script>
+    <script>
+        function pass(id){
+            $.get({
+                url: "/animals/approvalAnimals",
+                data:{"id":id,
+                    "approvalStatus":1
+                },
+                success:function (){
+                    window.location.href="/animals/showAnimals"
+                }
+            })
+        }
+        function reject(id){
+            $.get({
+                url:  "/animals/approvalAnimals",
+                data:{"id":id,
+                    "approvalStatus":2
+                },
+                success:function (){
+                    window.location.href="/animals/showAnimals"
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<div th:each="animals: ${animals}" style="border: 1px solid black">
+  <p><img th:src="${animals.avatorUrl}" alt="xxx"></p>
+  <p th:text="${animals.animalName}"></p>
+  <p th:text="${animals.varietyId}"></p>
+  <p th:text="${animals.introduction}"></p>
+  <p th:text="${animals.date}"></p>
+  <input type="button" th:onclick="'javascript: pass('+${animals.id}+')'" name="passButton" value="pass">
+  <input type="button" th:onclick="'javascript: reject('+${animals.id}+')'" name="rejectButton" value="reject">
+</div>
+</body>
+</html>

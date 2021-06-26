@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="/css/test.css">
+  <script src="/js/jquery-3.6.0.js"></script>
+  <script>
+    function go(){
+      $.post({
+        url:"/user/login",
+        data:{"username":$("#username").val(),"password":$("#password").val()},
+        success: function (data){
+          // alert(data.toString());
+          if(data==="true")
+            window.location.href="/main"
+          else
+            alert("密码或用户名错误")
+        },
+        error: function (data){
+          console.log(data.result);
+        }
+      })
+    }
+  </script>
+</head>
+<!--
+数据字典
+用户名输入 id username
+密码输入   id  password
+登录按钮   id  login
+注册 id signup
+-->
+<body>
+用户名：<input type="text" id="username" ><br>
+密码：<input type="password" id="password"><br>
+<input type="button" onclick="go()" value="登录" id="login"><br>
+<input type="button" onclick="window.location.href='/user/signup'" id="signup" value="注册">
+<p>我草泥马</p>
+</body>
+</html>

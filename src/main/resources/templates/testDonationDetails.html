@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <meta name="referrer" content="no-referrer" />
+</head>
+<script src="/js/jquery-3.6.0.js"></script>
+<script src="/js/getUrlParam.js"></script>
+<script>
+  function useDonation(id){
+    let useDetails = window.prompt("")
+    alert(useDetails)
+    if(useDetails==null||useDetails=="")
+      return;
+    $.get({
+      url:"/user/useDetails",
+      data:{"useDetails":useDetails,
+            "donationID":id},
+      success: function(){
+        $("#useDetails"+id).text(useDetails)
+        $("#use"+id).text("")
+      }
+    })
+  }
+</script>
+<body>
+<table>
+  <thead >
+  <tr >
+    <td width="5%">捐助对象</td>
+    <td width="5%">捐助人</td>
+    <td width="5%">捐助金额</td>
+    <td width="5%">捐助日期</td>
+    <td width="5%">捐款使用情况</td>
+    <td width="5%"></td>
+  </tr>
+  </thead>
+  <tbody >
+      <tr th:each="donation:${donation}" style="border-bottom: 1px solid gray">
+        <td th:text="${donation.animalsId}"></td>
+        <td th:text="${donation.username}"></td>
+        <td th:text="${donation.money}"></td>
+        <td th:text="${donation.date}"></td>
+        <td th:text="${donation.useDetails}" th:id="'useDetails'+${donation.donationID}"></td>
+        <td><span th:if="${donation.useDetails} eq '未使用'"><a th:id="'use'+${donation.donationID}" th:href="'javascript: useDonation('+${donation.donationID}+')'" >使用</a></span></td>
+      </tr>
+  </tbody>
+</table>
+</body>
+</html>

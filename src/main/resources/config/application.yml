@@ -1,0 +1,18 @@
+server:
+  port: 8082
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.108.213.154:3306/animalShelter? useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf-8
+    username: RiceRollsMaster
+    password: fkyourdogss22
+  mvc:
+    format:
+      date: YYYY-MM-DD
+# 整合mybatis
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
+#
+#logging:
+#  level:
+#    com.ft.animalshelter.mapper: debug

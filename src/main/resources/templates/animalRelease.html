@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-3.6.0.js"></script>
+    <script>
+        function addAnimal(){
+            $.get({
+                url: "/animals/toAnimals",
+                data:{
+                    "animalName":$("#animalName").val(),
+                    "gender":$("#gender").val(),
+                    "avatorUrl":$("#avatorUrl")[0].src,
+                    "varietyId":$("#varietyId").val(),
+                    "introduction":$("#introduction").val()
+                },
+                success: function(data){
+                    alert("申请添加成功，待管理员审核");
+                    window.location.href="/main"
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<!--
+动物头像 id avatorUrl
+动物名输入框 id  animalName
+性别 id gender
+动物分类 id varietyId
+简要介绍 id introduction
+添加动物提交按钮 id addAnimalButton
+-->
+<img src="https://i01piccdn.sogoucdn.com/93f5a1419dbc2e41" alt="xx" id="avatorUrl"><br>
+动物名：<input type="text" id="animalName"><br>
+性别：<input type="text" id="gender"><br>
+动物分类：<input type="text" id="varietyId">
+简要介绍: <input type="text" id="introduction">
+<input type="button" onclick="addAnimal()" id="addAnimalButton" value="提交">
+</body>
+</html>

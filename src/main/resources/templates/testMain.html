@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <meta name="referrer" content="no-referrer" />
+</head>
+<script src="/js/jquery-3.6.0.js"></script>
+  <script>
+    window.onload=function (){
+      getPosition()
+      getFuzzyQueryAnimals()
+      getUsernameAndAvator()
+    }
+    function getPosition(){
+      $.get({
+        url:"/user/getPosition",
+        success:function (data){
+          if(data==1||data==2){
+            let adminControl=document.getElementById("adminControl")
+            adminControl.style.display="block"
+          }
+        }
+      })
+    }
+    function getFuzzyQueryAnimals(){
+      let fuzzyQueryAnimalIframe=document.getElementById("fuzzyQueryAnimalIframe")
+      fuzzyQueryAnimalIframe.src="/animals/fuzzyQueryAnimals"
+    }
+    function sendAnimalsKeyWords(){
+      let fuzzyQueryAnimalIframe=document.getElementById("fuzzyQueryAnimalIframe")
+      fuzzyQueryAnimalIframe.src="/animals/fuzzyQueryAnimals?keyWords="+$("#keyWords").val()
+    }
+    function getUsernameAndAvator(){
+      $.get({
+        url:"/user/getUsernameAndAvator",
+        success:function (data){
+          $("#topUsername").html(data.split(";")[0])
+          let topAvator=document.getElementById("topAvator")
+          topAvator.src=data.split(";")[1]
+        }
+      })
+    }
+  </script>
+</head>
+<style>
+  *{
+    margin: 0;
+    padding: 0;
+  }
+  .top{
+
+    height: 5%;
+    justify-content:center;
+    vertical-align: middle;
+    font-weight: 600;
+    width: 100%;
+    border:2px solid black;
+    position: fixed;
+    font-size: 22px;
+    z-index: 3;
+    background-color: black;
+  }
+  .search{
+    height: 10%;
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+    position: absolute;
+    top: 38px;
+    line-height: 90px;
+  }
+  .content{
+    top: 145px;
+    width: 100%;
+    position: absolute;
+  }
+  button{
+    cursor: pointer;
+  }
+  a tr{
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+</style>
+<body>
+<div class="top">
+  <a href="/testMain">
+    <img src="https://i0.hdslb.com/bfs/face/50d88bdca85f54280463cdb7126201565be7a52b.jpg@128w_128h_1o.webp" width="100px" height="35px" style="float:left" alt="">
+  </a>
+  <a href="/"><button style="float: right;color: white;height: 35px;width: 100px;border: none;outline: none;background-color: black;font-size: 12px;">退出</button></a>
+
+  <!--    <span><a href=""><button  style="color: white;height: 35px;width: 70px;border: none;outline: none;background-color: black;font-size: 22px;">反馈</button></a></span>-->
+  <a href="/goPerson" target="_blank">
+    <span style="float: right;margin-right: 30px;"><button style="color: white;height: 35px;width: 100px;border: none;outline: none;background-color: black;font-size: 18px;" id="topUsername"></button></span>
+    <img src="" alt="" id="topAvator" style="border-radius:35px;height: 35px;width: 35px;float: right;margin-right: 15px;">
+  </a>
+  <a href="/goAdminController" target="_blank">
+    <button id="adminControl" style="display: none;float: right;color: white;margin-left: 70px;margin-right: 30px;height: 35px;width: 130px;background-color: #ff6a00;outline: none;border: none;font-size: 18px">管理员控制台</button>
+  </a>
+  <!--    <span style="float: right;"><button style="color: white;height: 35px;width: 70px;border: none;outline: none;background-color: black;font-size: 22px;cursor: auto">天气</button></span>-->
+  <!--    <span style="float: right;padding-right: 50px;"><button style="color: white;height: 35px;width: 70px;border: none;outline: none;background-color:black;font-size: 22px;cursor: auto">城市</button></span>-->
+</div>
+<div class="search">
+  <input type="text" style="height: 40px;width: 450px;border-radius: 10px;border: 2px solid black;font-size: 20px" id="keyWords" onchange="sendAnimalsKeyWords()">
+</div>
+<!--<div class="content" >-->
+<!--    <div style="width: 350px;height: 250px;border: 2px solid black;margin-left: 100px;margin-top:30px;display: inline-block">-->
+<!--        <div style="display: inline-block"></div>-->
+<!--        <div style="display: inline-block"></div>-->
+<!--    </div>-->
+<!--    <div style="width: 350px;height: 250px;border: 2px solid black;margin-left: 100px;margin-top:30px;display: inline-block">-->
+<!--        <div style="display: inline-block"></div>-->
+<!--        <div style="display: inline-block"></div>-->
+<!--    </div>-->
+<!--    <div style="width: 350px;height: 250px;border: 2px solid black;margin-left: 100px;margin-top:30px;display: inline-block">-->
+<!--        <div style="display: inline-block"></div>-->
+<!--        <div style="display: inline-block"></div>-->
+<!--    </div>-->
+<!--</div>-->
+<div style="width: 99%;position: absolute;top: 120px">
+<iframe src="" frameborder="0" width="100%" height="1000px" scrolling="no" id="fuzzyQueryAnimalIframe"></iframe>
+</div>
+</div>
+</body>
+</html>

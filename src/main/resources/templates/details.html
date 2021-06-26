@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-3.6.0.js"></script>
+    <script src="/js/getUrlParam.js"></script>
+    <script>
+    window.onload=function (){
+
+        // $.get({
+        //     url:"/commit/showCommits",
+        //     data:{"postId":GetQueryString("postId")},
+        //     success: function(){
+        //         window.location.href="/commit/showCommits?postId="+GetQueryString('postId');
+                // $("#iframeOne").src="/commit/showCommits?postId="+GetQueryString('postId');
+                refreshCommits()
+        //     }
+        // })
+        $("#postTitle").html(GetQueryString("postTitle"))
+        $("#postContext").html(GetQueryString("postContext"))
+        $("#postLikeCounts").html(GetQueryString("postLikeCounts"))
+        getUserPic()
+    }
+    function like(){
+        $.get({
+            url:"post/likePost",
+            data:{"postId":GetQueryString("postId")},
+            success: function(data){
+                $("#postLikeCounts").html(data)
+            }
+        })
+    }
+    function refreshCommits() {
+        let iframeOne = document.getElementById("iframeOne")
+        iframeOne.height =  window.scrollHeight;
+        iframeOne.src="/commit/showCommits?postId="+GetQueryString('postId');
+    }
+    function uploadMyCommit(){
+        $.get({
+          url:"/commit/toCommit",
+          data:{"postId":GetQueryString("postId"),
+              "commitContext":$("#myCommit").val()
+          },
+          success:function (data){
+              if(data=="true") {
+                  alert("评论成功");
+                   refreshCommits();
+              }
+          }
+        })
+    }
+    function getUserPic(){
+        $.get({
+            url:"/user/getUserPic",
+            data:{"username":GetQueryString("postUser")},
+            success: function (data){
+                let postUrlPic=document.getElementById("postUrlPic")
+                postUrlPic.src=data
+            }
+        })
+    }
+    // window.setInterval("refreshCommits()",2000)
+    </script>
+</head>
+<body>
+<img src="https://i01piccdn.sogoucdn.com/93f5a1419dbc2e41" alt="" id="postUrlPic">
+<p id="postTitle"></p>
+<P id="postContext"></P>
+<P id="postUser"></P>
+<P id="postLikeCounts"></P>
+<input type="button" value="点赞" id="Like" onclick="like()">
+<input type="text" id="myCommit">
+<input type="button" id="uploadMyCommit" value="提交评论" onclick="uploadMyCommit()"><br>
+<iframe src="" frameborder="1" id="iframeOne"></iframe>
+
+</body>
+</html>

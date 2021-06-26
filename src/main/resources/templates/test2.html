@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="referrer" content="no-referrer" />
+</head>
+<script src="/js/jquery-3.6.0.js"></script>
+<script>
+    window.onload=function (){
+       // showFuzzyQueryAnimals();
+    }
+    function showFuzzyQueryAnimals(){
+        window.location.href="/animals/fuzzyQueryAnimals"
+    }
+    function sendAnimalKeyWords(){
+        $.get({
+            url:"/animals/fuzzyQueryAnimals",
+            data:{"keyWords":$("#keyWords").val()},
+            success:function (data){
+                window.location.href="/animals/fuzzyQueryAnimals?keyWords="+$("#keyWords").val();
+            }
+        })
+    }
+</script>
+<body>
+<input type="text" id="keyWords" onblur="sendAnimalKeyWords()">
+<div th:each="fuzzyQueryAnimals: ${fuzzyQueryAnimals}" style="border: 1px solid black">
+    <p th:text="${fuzzyQueryAnimals.id}"></p>
+    <p th:text="${fuzzyQueryAnimals.animalName}"></p>
+    <p th:text="${fuzzyQueryAnimals.gender}"></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/test.css">
+    <script src="/js/jquery-3.6.0.js"></script>
+    <script>
+        //JS操作cookies方法!
+        //写cookies
+        function setCookie(name,value)
+        {
+            let Days = 30;
+            let exp = new Date();
+            exp.setTime(exp.getTime() + Days*24*60*60*1000);
+            document.cookie = name + "="+ escape (value) + ";expires=" + exp.toUTCString();
+        }
+        //读取cookies
+        function getCookie(name)
+        {
+            let arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+            if(arr=document.cookie.match(reg)) return unescape(arr[2]);
+            else return null;
+        }
+        //删除cookies
+        function delCookie(name) {
+            let exp = new Date();
+            exp.setTime(exp.getTime() - 1);
+            let cval = getCookie(name);
+            if (cval != null) document.cookie = name + "=" + cval + ";expires=" + exp.toUTCString();
+        }
+
+    </script>
+    <script>
+        window.onload=function (){
+            let remeber=document.getElementById("remeberMe");
+            if(getCookie("password")==null) {
+                let usernameInput=document.getElementById("username");
+                usernameInput.value=getCookie("username")
+                remeber.checked = false
+            }
+            else{
+                remeber.checked=true;
+                let usernameInput=document.getElementById("username");
+                usernameInput.value=getCookie("username")
+                let passwordInput=document.getElementById("password");
+                passwordInput.value=getCookie("password")
+            }
+        }
+        function go(){
+            $.post({
+            url:"/user/login",
+            data:{"username":$("#username").val(),"password":$("#password").val()},
+            success: function (data){
+                 // alert(data.toString());
+                if(data==="true") {
+                    let remeber=document.getElementById("remeberMe");
+                    //在判断如果remeber me勾选了的话就到在cookie中存上值值和密码。
+                    // alert(remeber.checked)
+                    if(remeber.checked==true) {
+                        setCookie("username",$("#username").val());
+                        setCookie("password",$("#password").val());
+                    }
+                    //如果remeber me ,没有勾选，同样也到controller中把cookie中的值删除。
+                    if(remeber.checked==false) {
+                         alert("不记住哦")
+                        //先设置flag为0
+                        delCookie("password")
+                    }
+                    window.location.href = "/main";
+                }
+                else
+                    alert("密码或用户名错误")
+            },
+            error: function (data){
+                console.log(data.result);
+            }
+            })
+        }
+    </script>
+</head>
+<!--
+数据字典
+用户名输入 id username
+密码输入   id  password
+登录按钮   id  login
+注册 id signup
+-->
+<body>
+用户名：<input type="text" id="username" ><br>
+密码：<input type="password" id="password"><br>
+<input type="checkbox" value="记住我" id="remeberMe" name="remeberMe"> Remeber me
+<input type="button" onclick="go()" value="登录" id="login"><br>
+<input type="button" onclick="window.location.href='/user/signup'" id="signup" value="注册">
+<p>我草泥马</p>
+</body>
+</html>

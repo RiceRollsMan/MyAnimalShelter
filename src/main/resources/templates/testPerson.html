@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <meta name="referrer" content="no-referrer"/>
+  <script src="/js/jquery-3.6.0.js"></script>
+  <script src="/js/getUrlParam.js"></script>
+</head>
+  <style type="text/css">
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    .top{
+      height: 5%;
+      justify-content:center;
+      vertical-align: middle;
+      font-weight: 600;
+      width: 100%;
+      border:2px solid black;
+      position: fixed;
+      font-size: 22px;
+      z-index: 3;
+      background-color: black;
+    }
+    .SecTop{
+      width:100%;
+      height:200px;
+      background-color: yellow;
+      top:50px;
+    }
+    .right{
+      width: 30%;
+      height: 500px;
+      float: left;
+      background-color: #00ACED;
+    }
+    .left{
+      width: 69%;
+      height: 60px;
+      float: left;
+      margin: 0;
+      padding:0;
+    }
+    iframe{
+      width:100%;
+      height: 430px;
+      float: left;
+
+    }
+
+  </style>
+<script>
+  window.onload=function(){
+    getPosition()
+    getUsernameAndAvator()
+    showMyFollowAnimals()
+  }
+  function getPosition(){
+    $.get({
+      url:"/user/getPosition",
+      success:function (data){
+        if(data==1||data==2){
+          let adminControl=document.getElementById("adminControl")
+          adminControl.style.display="block"
+        }
+      }
+    })
+  }
+  function getUsernameAndAvator(){
+    $.get({
+      url:"/user/getUsernameAndAvator",
+      success:function (data){
+        $("#topUsername").html(data.split(";")[0])
+        $("#username").html(data.split(";")[0])
+        let topAvator=document.getElementById("topAvator")
+        topAvator.src=data.split(";")[1]
+        let userPicAvator=document.getElementById("userPicAvator")
+        userPicAvator.src=data.split(";")[1]
+      }
+    })
+  }
+  function showMyFollowAnimals(){
+    $.get({
+      url:"/animals/showMyFollowAnimals",
+      success: function (data){
+        let iframeOne=document.getElementById("iframeOne")
+        iframeOne.src="/animals/showMyFollowAnimals"
+      }
+    })
+  }
+  function showMyPosts(){
+    $.get({
+      url:"/post/showMyPosts",
+      success: function (data){
+        let iframeOne=document.getElementById("iframeOne")
+        iframeOne.src="/post/showMyPosts"
+      }
+    })
+  }
+  function showMyDonation(){
+    $.get({
+      url:"/user/showMyDonation",
+      success: function (data){
+        let iframeOne=document.getElementById("iframeOne")
+        iframeOne.src="/user/showMyDonation"
+      }
+    })
+  }
+</script>
+<body>
+
+<div class="top">
+  <a href="/testMain">
+    <img src="https://i0.hdslb.com/bfs/face/50d88bdca85f54280463cdb7126201565be7a52b.jpg@128w_128h_1o.webp" width="100px" height="35px" style="float:left" alt="">
+  </a>
+  <!--    <span><a href=""><button  style="color: white;height: 35px;width: 70px;border: none;outline: none;background-color: black;font-size: 22px;">反馈</button></a></span>-->
+  <a href="/"><button style="float: right;color: white;height: 35px;width: 100px;border: none;outline: none;background-color: black;font-size: 12px;">退出</button></a>
+  <a href="/goPerson" target="_blank">
+    <span style="float: right;margin-right: 30px;"><button style="color: white;height: 35px;width: 100px;border: none;outline: none;background-color: black;font-size: 18px;" id="topUsername"></button></span>
+    <img src="" alt="" id="topAvator" style="border-radius:35px;height: 35px;width: 35px;float: right;margin-right: 15px;">
+  </a>
+  <a href="/goAdminController" target="_blank">
+    <button id="adminControl" style="display: none;float: right;color: white;margin-left: 70px;margin-right: 30px;height: 35px;width: 130px;background-color: #ff6a00;outline: none;border: none;font-size: 18px">管理员控制台</button>
+  </a>
+  <!--    <span style="float: right;"><button style="color: white;height: 35px;width: 70px;border: none;outline: none;background-color: black;font-size: 22px;cursor: auto">天气</button></span>-->
+  <!--    <span style="float: right;padding-right: 50px;"><button style="color: white;height: 35px;width: 70px;border: none;outline: none;background-color:black;font-size: 22px;cursor: auto">城市</button></span>-->
+</div>
+
+
+<div class="SecTop" style="padding-top:50px">
+  <img src="" id="userPicAvator" style="height: 100px;width: 100px;background-color: black;border-radius: 50px;margin-left: 50px" alt=""><br>
+  <span id="username" style="font-size: 30px;font-weight: bold;margin-left: 20px"></span>
+  <br>
+</div>
+<div class="left">
+<!--  <a href="#" target="FrmContent"><button style="height: 100%;width: 33%;padding:0px"><span>我的关注</span></button></a>-->
+<!--  <a href="#" target="FrmContent"><button style="height: 100%;width: 33%;padding:0px"><span>我发布的帖子</span></button></a>-->
+<!--  <a href="#" target="FrmContent"><button style="height: 100%;width: 33%;padding:0px"><span>我的捐助记录</span></button></a>-->
+
+  <a href="javascript:showMyFollowAnimals()"><div style="float: left;width: 33%;height: 100%;border-right: 1px solid black;text-align: center;line-height: 50px;font-size: 30px;font-weight: bold">我的关注</div></a>
+  <a href="javascript:showMyPosts()"><div style="float: left;width: 33%;height: 100%;border-right: 1px solid black;text-align: center;line-height: 50px;font-size: 30px;font-weight: bold">我的发布</div></a>
+  <a href="javascript:showMyDonation()"><div style="float: left;width: 33%;height: 100%;text-align: center;line-height: 50px;font-size: 30px;font-weight: bold">我的捐助</div></a>
+
+  <iframe id="iframeOne"></iframe>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ft.animalshelter.mapper.CommitMapper">
+    <select id="getCounts" resultType="int">
+    select count(*) from commit
+    </select>
+    <insert id="addCommit" parameterType="com.ft.animalshelter.pojo.Commit">
+    insert into commit(commitId,postId,commitUser,commitContext) values(#{commitId},#{postId},#{commitUser},#{commitContext})
+    </insert>
+    <select id="showCommits" resultType="com.ft.animalshelter.pojo.Commit">
+        select * from commit where postId=#{postId} order by commitDate DESC
+    </select>
+    <update id="likeCommits"  parameterType="int">
+        update commit set likeCounts=likeCounts+1 where commitId=#{commitId}
+    </update>
+    <select id="getCommitLikes" resultType="int">
+        select likeCounts from commit where commitId = #{commitId}
+    </select>
+</mapper>

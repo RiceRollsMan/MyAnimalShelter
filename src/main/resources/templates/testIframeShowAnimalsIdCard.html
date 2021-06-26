@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="/js/jquery-3.6.0.js"></script>
+  <script src="/js/getUrlParam.js"></script>
+  <script type="text/javascript" th:inline="javascript">
+    window.onload=function() {
+      $("#addAnimalButton").attr('disabled',true)
+    }
+    function focusOrNot(id){
+      $.get({
+        url: "/user/focusOrNot",
+        data:{"id":id},
+        success:function (data){
+          $("#follow"+id+"").html(data)
+        }
+      })
+    }
+    function mouseMoveOut(id){
+      $("#follow"+id+"").html("")
+    }
+    function mouseClick(id){
+      $.get({
+        url: "/user/focusOrCancelFocus",
+        data:{"id":id},
+        success:function (data){
+          $("#follow"+id+"").html(data);
+        }
+      })
+    }
+    function goPicWall(id){
+      if (window != top)
+        top.location.href = "/animals/animalPicWall?id="+id;
+    }
+    function goDonate(id){
+      if (window != top)
+        top.location.href = "/user/goDonation?id="+id;
+    }
+    function goBar(id){
+      if (window != top)
+        top.location.href = "/post/goBar?id="+id;
+    }
+    function addAnimal(){
+      $.get({
+        url:"/animals/toAnimals",
+        data:{"animalName":$("#addAnimalName").val(),
+              "gender":$("#addAnimalGender").val(),
+              "varietyId":$("#addAnimalVariety").val(),
+              "avatorUrl":$("#addAnimalAvator")[0].src,
+              "introduction":$("#addAnimalIntroduction").val()
+        },
+        success:function(data){
+          alert("发布成功，请静待管理员审核通过")
+        }
+      })
+    }
+    function canSign(){
+      if($("#addAnimalName").val()==""||$("#addAnimalName").val()==null){
+        $("#addAnimalButton").attr('disabled',true)
+      }
+      else
+        $("#addAnimalButton").attr('disabled',false)
+    }
+  </script>
+</head>
+<body>
+<div style="width: 350px;height: 250px;border: 2px solid rgba(147,144,224,0.55);margin-left: 100px;margin-top:50px;display: inline-block;border-radius: 10px">
+  <div style="width: 200px;height: 250px;margin: 0;display: inline;float: left; font-size: 13px">
+    <table style="display: block;width: 100%;height: 100%;  padding-top: 1rem;padding-left: 0;">
+      <thead>
+      我要添加
+      </thead>
+      <tr>
+        <td>名字</td>
+        <td><input type="text" id="addAnimalName" onblur="canSign()"></td>
+      </tr>
+      <tr>
+        <td>种类</td>
+        <td><select name="addAnimalVariety" id="addAnimalVariety">
+          <option value="1">猫</option>
+          <option value="2">狗</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>性别</td>
+        <td><select name="addAnimalGender" id="addAnimalGender">
+          <option value="0">雌</option>
+          <option value="1">雄</option>
+          <option value="2" selected="selected">未知</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>简介</td>
+        <td><input type="text" id="addAnimalIntroduction"></td>
+      </tr>
+    </table>
+  </div>
+  <div style="width: 150px;height: 250px;display: inline;float: left;padding-top: 1rem;">
+    <img src="https://i01piccdn.sogoucdn.com/93f5a1419dbc2e41" alt="" id="addAnimalAvator" style="width: 120px;height: 150px;">
+    <button id="addAnimalButton"  onclick="addAnimal()" style="width: 120px;height: 25px;margin-top: 5px">添加动物</button>
+  </div>
+</div>
+<div th:each="animals:${fuzzyQueryAnimals}" style="width: 350px;height: 250px;border: 2px solid rgba(147,144,224,0.55);margin-left: 100px;margin-top:50px;display: inline-block;border-radius: 10px">
+  <div style="width: 200px;height: 250px;margin: 0;display: inline;float: left;">
+    <a th:href="'javascript: goBar('+${animals.id}+')'"  style="display: block;width: 100%;height: 100%; text-decoration: none; padding-top: 1rem;padding-left: 1rem;"><table>
+      <tr>
+        <td><span>姓名</span></td>
+        <td><span id="animalName" th:text="${animals.animalName}"></span></td>
+      </tr>
+      <tr>
+        <td><span>种类</span></td>
+        <td><span name="variety" th:if="${animals.varietyId} eq 0">狗</span>
+          <span name="variety" th:if="${animals.varietyId} eq 1">猫</span></td>
+      </tr>
+      <tr>
+        <td><span>性别</span></td>
+        <td><span name="gender" th:if="${animals.gender} eq 0">雌</span>
+          <span name="gender" th:if="${animals.gender} eq 1">雄</span>
+          <span name="gender" th:if="${animals.gender} eq 2">未知</span></td>
+      </tr>
+      <tr>
+        <td><span>简介</span></td>
+        <td><span id="introduction" th:text="${animals.introduction}"></span></td>
+      </tr>
+<!--      <tr>-->
+<!--        <td><span>日期</span></td>-->
+<!--        <td><span id="date" th:text="${animals.date}"></span></td>-->
+<!--      </tr>-->
+      <tr>
+        <td><span>ID</span></td>
+        <td><span id="id" th:text="${animals.id}"></span></td>
+      </tr>
+    </table>
+    </a>
+  </div>
+  <div style="width: 100px;height: 250px;display: inline;float: left;">
+    <br>
+<!--    <a th:href= "'/details?postPicUrl='+${passPosts.postPicUrl}+
+           '&postId='+${passPosts.postId}+
+           '&postTitle='+${passPosts.postTitle}+
+           '&postContext='+${passPosts.postContext}+
+           '&postUser='+${passPosts.postUser}+
+           '&postLikeCounts='+${passPosts.likeCounts}
+">-->
+    <a  th:href="'javascript: goPicWall('+${animals.id}+')'" >
+    <img  alt="" style="width: 120px;height: 150px;" id="animalAvatorUrl" th:src="${animals.avatorUrl}">
+    </a>
+    <button style="width: 120px;height: 25px;margin-top: 5px"  th:onclick="'javascript: mouseClick('+${animals.id}+')'" th:onmouseout="'javascript: mouseMoveOut('+${animals.id}+')'" th:onmouseover="'javascript: focusOrNot('+${animals.id}+')'"><span th:id="'follow' + ${animals.id}"></span></button>
+    <button style="width: 120px;height: 25px;margin-top: 5px" th:onclick="'javascript: goDonate('+${animals.id}+')'" >捐助</button>
+  </div>
+</div>
+
+</body>
+</html>

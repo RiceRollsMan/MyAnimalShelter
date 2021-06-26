@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <meta name="referrer" content="no-referrer" />
+</head>
+<script src="/js/jquery-3.6.0.js"></script>
+<script>
+  window.onload=function() {
+  }
+  function getUser(){
+    $.get({
+      url:"/user/fuzzyQueryUser",
+      data:{"keyWords":$("#keyWords").val()},
+      success:function (data){
+        window.location.href="/user/fuzzyQueryUser?keyWords="+$("#keyWords").val()
+      }
+    })
+  }
+  function delAdmin(username){
+    $.get({
+      url:"/user/updatePosition",
+      data:{"username":username,
+        "position":0},
+      success:function (){
+        alert("设置成功")
+        window.location.href="/user/queryAll"
+      }
+    })
+  }
+  function setAdmin(username){
+    $.get({
+      url:"/user/updatePosition",
+      data:{"username":username,
+          "position":1},
+      success:function (){
+        alert("设置成功")
+        window.location.href="/user/queryAll"
+      }
+    })
+  }
+</script>
+<body>
+<input type="text" onblur="getUser()" id="keyWords">
+<table style="width: 80%">
+  <thead>
+  <tr>
+    <td>用户名</td>
+    <td>身份</td>
+    <td></td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="allUser:${allUser}">
+    <td> <span th:text="${allUser.username}"></span></td>
+    <td><span th:if="${allUser.position} eq 0">用户</span><span th:if="${allUser.position} eq 1">管理员</span><span th:if="${allUser.position} eq 2">总管理员</span></td>
+    <td><a th:href="'javascript: setAdmin('+${allUser.username}+')'"><span th:if="${allUser.position} eq 0">设为管理员</span></a> <a th:href="'javascript: delAdmin('+${allUser.username}+')'"><span th:if="${allUser.position} eq 1">撤销管理员</span></a></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-3.6.0.js"></script>
+    <script src="/js/getUrlParam.js"></script>
+    <script>
+        function goDetails(id){
+            alert("xxx")
+            top.location.href="/post/goDetails?postId"+=id;
+        }
+    </script>
+
+</head>
+<body>
+<div th:each="posts: ${posts}" style="border: 1px solid black" >
+  <a  th:href="'javascript: goDetails('+${posts.postId}+')'">
+    <p><img th:src="${posts.postPicUrl}" alt="xxx"></p>
+    <p th:text="${posts.postId}"></p>
+    <p th:text="${posts.postTitle}"></p>
+    <p th:text="${posts.postContext}"></p>
+    <p th:text="${posts.postUser}"></p>
+    <p th:text="${posts.likeCounts}"></p>
+  </a>
+</div>
+</body>
+</html>

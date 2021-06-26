@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-3.6.0.js"></script>
+    <script>
+        window.onload=function (){
+            let showPostsIframe=document.getElementById("showPostsIframe")
+            showPostsIframe.src="/post/showPassPosts"
+        }
+        function fuzzyQueryPost(){
+
+        }
+    </script>
+</head>
+<body>
+<input type="text" id="fuzzyQueryPost" onchange="fuzzyQueryPost()">
+<iframe src="" frameborder="0" id="showPostsIframe"></iframe>
+</body>
+</html>

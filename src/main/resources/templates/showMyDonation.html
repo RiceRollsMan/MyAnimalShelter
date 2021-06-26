@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="referrer" content="no-referrer" />
+</head>
+<script src="/js/jquery-3.6.0.js"></script>
+<body>
+<div th:each="donation:${donation}">
+    <span th:text="${donation.animalsId}"></span>
+    <span th:text="${donation.money}"></span>
+    <span th:text="${donation.date}"></span>
+    <span th:text="${donation.useDetails}"></span>
+</div>
+</body>
+</html>

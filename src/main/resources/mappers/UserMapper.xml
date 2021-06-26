@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ft.animalshelter.mapper.UserMapper">
+    <select id="queryAll" resultType="com.ft.animalshelter.pojo.User">
+        select * from user order by position desc;
+    </select>
+    <select id="queryByUsername" resultType="com.ft.animalshelter.pojo.User">
+        select * from user where username=#{username}
+    </select>
+    <select id="login" resultType="com.ft.animalshelter.pojo.User">
+        select * from user where username=#{username} and password=#{password}
+    </select>
+    <select id="username_exist" resultType="com.ft.animalshelter.pojo.User">
+        select * from user where username=#{username}
+    </select>
+    <insert id="goSignUp" parameterType="com.ft.animalshelter.pojo.User">
+        insert into user(username,password,gender,birth,mail,avatorUrl,collegeId,introduction) values(#{username},
+                                #{password},
+                                #{gender},
+                                #{birth},
+                                #{mail},
+                                #{avatorUrl},
+                                #{collegeId},
+                                #{introduction}
+                                )
+    </insert>
+    <select id="getCounts" resultType="int">
+        select count(*) from user
+    </select>
+    <insert id="followAnimals">
+        insert into animalsFollower (animalsId,username)
+        values (#{animalsId},#{username})
+    </insert>
+    <delete id="dontFollowAnimals">
+        delete
+        from animalsFollower
+        where animalsId=#{animalsId} and username=#{username};
+    </delete>
+    <select id="getPosition" resultType="Integer">
+        select position from user where username=#{username}
+    </select>
+    <insert id="donation" parameterType="com.ft.animalshelter.pojo.Bodhisattva">
+        insert into donation (donationID,animalsId,username,money)
+        values (#{donationID},#{animalsId},#{username},#{money});
+    </insert>
+    <select id="getTopFiveBodhisattvaName" resultType="String">
+        select username from donation GROUP BY username order by SUM(money) desc limit 0,5
+     </select>
+    <select id="getTopFiveBodhisattvaMoney" resultType="Integer">
+        select SUM(money) from donation GROUP BY username order by SUM(money) desc limit 0,5
+     </select>
+    <select id="showMyPosts" resultType="com.ft.animalshelter.pojo.Post">
+        select * from post where postUser=#{username}
+    </select>
+    <select id="showMyFollowAnimals" resultType="com.ft.animalshelter.pojo.Animals">
+        select * from animalsfollower join animals on(animalsfollower.animalsId=animals.id) where username=#{username}
+    </select>
+    <select id="showMyDonation" resultType="com.ft.animalshelter.pojo.Bodhisattva">
+        select * from donation where username=#{username}
+    </select>
+    <select id="getMyDonationCounts" resultType="int">
+        select count(*) from donation where username=#{username}
+    </select>
+    <select id="getMyDonationMoney" resultType="int">
+        select SUM(money) from donation where username=#{username} Group by username
+    </select>
+    <select id="followOrNotFollow" resultType="int">
+        select count(*) from animalsFollower where username=#{username} and animalsId=#{animalsId}
+    </select>
+
+    <select id="getAvator"  resultType="String" >
+        select avatorUrl from user where username=#{username}
+    </select>
+    <select id="updatePosition" >
+        update user set position=#{position} where username=#{username}
+    </select>
+    <select id="getDonationID" resultType="int">
+        select count(*) from donation;
+    </select>
+    <select id="getDonation" resultType="com.ft.animalshelter.pojo.Bodhisattva">
+        select * from donation;
+    </select>
+    <update id="useDonation">
+        update donation
+        set useDetails = #{useDetails}
+        where donationID=#{donationID};
+    </update>
+    <select id="fuzzyQueryUser" resultType="com.ft.animalshelter.pojo.User">
+        select * from user where username like '%${keyWords}%' order by position desc
+    </select>
+    <select id="getDonationCounts" resultType="int">
+        select sum(money) from donation
+    </select>
+</mapper>

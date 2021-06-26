@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-3.6.0.js"></script>
+    <script>
+        window.onload=function (){
+             showFuzzyQueryPosts();
+        }
+        function showFuzzyQueryPosts(){
+            let showPostsIframe=document.getElementById("showPostsIframe")
+            showPostsIframe.src="/post/fuzzyQueryPosts"
+        }
+        function sendPostKeyWords(){
+            $.get({
+                url:"/post/fuzzyQueryPosts",
+                data:{"keyWords":$("#keyWords").val()},
+                success:function (data){
+                    let showPostsIframe=document.getElementById("showPostsIframe");
+                    showPostsIframe.src="/post/fuzzyQueryPosts?keyWords="+$("#keyWords").val();
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<input type="text" id="keyWords" onchange="sendPostKeyWords()"><br>
+<iframe src="" frameborder="0" id="showPostsIframe" style="height:200px;width:100%"></iframe>
+</body>
+</html>

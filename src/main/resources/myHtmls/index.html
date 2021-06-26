@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sevenmin_7</title>
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+    <script src="/js/jquery-3.6.0.js"></script>
+    <script src="/js/js-cookie.js"></script>
+    <script>
+        window.onload=function (){
+            let remeber=document.getElementById("remeberMe");
+            if(getCookie("password")==null) {
+                let usernameInput=document.getElementById("username");
+                usernameInput.value=getCookie("username")
+                remeber.checked = false
+            }
+            else{
+                remeber.checked=true;
+                let usernameInput=document.getElementById("username");
+                usernameInput.value=getCookie("username")
+                let passwordInput=document.getElementById("password");
+                passwordInput.value=getCookie("password")
+            }
+        }
+        function go(){
+            $.post({
+                url:"/user/login",
+                data:{"username":$("#username").val(),"password":$("#password").val()},
+                success: function (data){
+                    // alert(data.toString());
+                    if(data==="true") {
+                        let remeber=document.getElementById("remeberMe");
+                        //在判断如果remeber me勾选了的话就到在cookie中存上值值和密码。
+                        // alert(remeber.checked)
+                        if(remeber.checked==true) {
+                            setCookie("username",$("#username").val());
+                            setCookie("password",$("#password").val());
+                        }
+                        //如果remeber me ,没有勾选，同样也到controller中把cookie中的值删除。
+                        if(remeber.checked==false) {
+                            alert("不记住哦")
+                            //先设置flag为0
+                            delCookie("password")
+                        }
+                        window.location.href = "/main";
+                    }
+                    else
+                        alert("密码或用户名错误")
+                },
+                error: function (data){
+                    console.log(data.result);
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<div class="page">
+    <div class="page_main">
+        <div name="login_box" id="loginxx">
+            <div name="input_userName" id="input_userName">
+                <i class="fa fa-github-alt" style="font-size:30px"></i><input type="text" placeholder="USERNAME" name="username" id="username" required="required" style="height: 30px;width: 200px;font-size: 20px">
+            </div>
+            <div name="input_password" id="input_password">
+                <i class="fa fa-search" style="font-size:30px"></i><input type="password" placeholder="PASSWORD" name="password" id="password" required="required" style="height: 30px;width: 200px;font-size: 15px">
+            </div>
+            <input type="checkbox" name="remeberMe" id="remeberMe" value="true"><label for="remeberMe" style="font-size: 12px" >记住我</label>
+            &nbsp;&nbsp;&nbsp;
+            <p style="font-size: 2px">Don't hava a username?<a onclick="window.location.href='/user/signup'" target="_blank" id="signup" style="cursor:pointer;color: blue">Sign up!</a></p>
+            <input type="button" id="login" value="登录" onclick="go()" style="height: 30px;width: 300px;border:0;
+			border-radius:15px;font-weight:700;background-image: linear-gradient(to right, #74ebd5 0%, #9face6 100%);cursor:pointer" >
+        </div>
+    </div>
+</div>
+</body>
+</html>

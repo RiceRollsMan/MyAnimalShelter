@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="referrer" content="no-referrer" />
+</head>
+<script src="/js/jquery-3.6.0.js"></script>
+<body>
+<div th:each="fuzzyQueryPosts: ${fuzzyQueryPosts}" style="border: 1px solid black">
+    <p th:text="${fuzzyQueryPosts.postId}"></p>
+    <p th:text="${fuzzyQueryPosts.postId}"></p>
+    <p th:text="${fuzzyQueryPosts.postUser}"></p>
+    <p th:text="${fuzzyQueryPosts.postDate}"></p>
+    <p th:text="${fuzzyQueryPosts.likeCounts}"></p>
+</div>
+</body>
+</html>

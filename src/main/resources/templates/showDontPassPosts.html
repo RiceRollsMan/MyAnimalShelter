@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="referrer" content="no-referrer" />
+</head>
+<script src="/js/jquery-3.6.0.js"></script>
+<body>
+<div th:each="dontPassPosts: ${dontPassPosts}" style="border: 1px solid black">
+    <p><img th:src="${dontPassPosts.postPicUrl}" alt="xxx"></p>
+    <p th:text="${dontPassPosts.postId}"></p>
+    <p th:text="${dontPassPosts.postTitle}"></p>
+    <p th:text="${dontPassPosts.postContext}"></p>
+    <p th:text="${dontPassPosts.postUser}"></p>
+</div>
+</body>
+</html>

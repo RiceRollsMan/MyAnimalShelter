@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="referrer" content="no-referrer" />
+  <title>Title</title>
+  <script src="/js/jquery-3.6.0.js"></script>
+  <script>
+    let username_existFlag=0;
+    let username_matchFlag=0;
+    let password_confirmFlag=0;
+    let password_matchFlag=0;
+    window.onload=function(){
+      window.setInterval(canSignUp,2000)
+    }
+    function username_exist(){
+      $.get({
+        url:"/user/username_exist",
+        data:{"username":$("#username").val()},
+        success: function (data) {
+          if (data === "false") {
+            $("#username_exist").html("用户名已存在");
+            username_existFlag = 0;
+          }
+          else
+          {
+            $("#username_exist").html("");
+            username_existFlag = 1;
+          }
+        }
+      })
+    }
+
+    function password_confirm(){
+      if($("#password").val()!=$("#passwordConfirm").val()) {
+        $("#password_confirm").html("两次密码输入不一致，请确认");
+        password_confirmFlag=0;
+      }
+      else{
+        $("#password_confirm").html("");
+        password_confirmFlag=1;
+      }
+    }
+    function go_signUp(){
+      $.get({
+        url:"/user/toUser",
+        data:{
+          "avatorUrl":$("#avatorUrl")[0].src,
+          "username":$("#username").val(),
+          "password":$("#password").val(),
+          "gender":$("input[name='gender']:checked").val(),
+          //"birth":$("#birth").val(),
+          "mail":$("#mail").val(),
+          "collegeId":$("#collegeId").val(),
+          "introduction":$("#introduction").val(),
+        },
+        success:function (data){
+          if(data=="true")
+            window.location.href="/signUpOk"
+        }
+      })
+    }
+  </script>
+</head>
+<body>
+<img src="https://profile.csdnimg.cn/B/A/A/3_du_du1" alt="xx" id="avatorUrl" hidden="true"><br>
+<div style="border: #F26521 solid;margin: 30px auto auto;width: 30%;height: 550px;padding-top: 30px">
+  <table>
+    <tr>
+      <td>用户名:</td>
+    </tr>
+    <tr>
+      <td >
+        <label>
+          <input type="text" id="username" style="width: 200px" placeholder="请输入用户名" onblur="username_exist(),usernameMatch()">
+        </label>
+      </td>
+      <td>
+        <span style="font-size: 12px;color: #3850ff" id="username_exist"></span>
+      </td>
+    </tr>
+    <tr>
+      <td style="width: 10px;height: 10px">
+        <span style="font-size:8px;color: #3850ff" id="username_match"></span>
+      </td>
+    </tr>
+    <tr>
+      <td>密码:</td>
+    </tr>
+    <tr>
+      <td>
+        <label>
+          <input type="password" id="password" style="width: 200px" onblur="passwordMatch()" placeholder="请输入密码">
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td style="width: 10px;height: 10px">
+        <span style="font-size:8px;color: #3850ff" id="password_match"></span>
+      </td>
+    </tr>
+    <tr>
+      <td>确定密码:</td>
+    </tr>
+    <tr>
+      <td>
+        <label>
+          <input type="password" id="passwordConfirm" style="width: 200px" placeholder="请再输入密码" onblur="password_confirm()">
+        </label>
+      </td>
+      <td>
+        <span id="password_confirm" style="font-size:8px;color: #3850ff"></span>
+      </td>
+    </tr>
+    <tr>
+      <td>性别:</td>
+    </tr>
+    <tr>
+      <td>
+        <label>
+          <input type="radio" value="1" name="gender">
+          男
+        </label>
+        <label>
+          <input type="radio" value="0" name="gender">
+          女
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td>邮箱:</td>
+    </tr>
+    <tr>
+      <td>
+        <label>
+          <input type="email" id="mail" style="width: 200px" placeholder="请输入邮箱">
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td>大学:</td>
+    </tr>
+    <tr>
+      <td>
+        <select name="" id="collegeId" style="width: 210px">
+          <option value="0">成都信息工程大学</option>
+          <option value="1">四川大学</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>个人介绍:</td>
+    </tr>
+    <tr>
+      <td>
+        <label>
+          <textarea style="resize: none;width: 200px;height: 70px;" name="" id="introduction" cols="30" rows="10" placeholder="请输入个人简介"></textarea>
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button style="width: 210px" id="signup_button"  onclick="go_signUp()">注册</button>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
+<script>
+  // 用户名正则，4到16位（字母，数字，下划线，减号）
+    function usernameMatch() {
+    let uPattern = /^[a-zA-Z0-9_-]{4,16}$/;
+    let username = $("#username").val()
+    if (uPattern.test(username)==true) {
+      $("#username_match").html("");
+      username_matchFlag=1;
+    } else {
+      username_matchFlag=0;
+      $("#username_match").html("用户名应由4到16位数字、字母组成");
+
+    }
+  }
+
+  //密码强度正则，最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符
+  function passwordMatch() {
+    let pPattern = /^[a-zA-Z0-9_-]{8,16}$/;
+    let password = $("#password").val()
+    if (pPattern.test(password)==false) {
+      password_matchFlag=0;
+      $("#password_match").html("密码应由8到16位数字、字母组成");
+    }
+    else {
+      password_matchFlag=1;
+      $("#password_match").html("");
+    }
+  }
+  $("#signup_button").attr('disabled', true);
+  function canSignUp() {
+  //
+    if (username_existFlag==1 && username_matchFlag==1 && password_matchFlag==1 && password_confirmFlag==1 && $("input[name='gender']:checked")&& $("#mail").val() != ""  && $("#collegeId").val() != null) {
+      $("#signup_button").attr('disabled', false);
+    }
+  }
+</script>
+</html>

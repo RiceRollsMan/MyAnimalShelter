@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-3.6.0.js"></script>
+
+</head>
+<body>
+<!--
+数据字典
+贴子发布网页按钮 id postReleaseButton
+-->
+<span th:text="${session.user}"></span>
+this is main html
+<input type="button" id="postReleaseButton" onclick="window.location.href='/postRelease'" value="我要发布">
+<input type="button" id="showPosts" onclick="window.location.href='/post/showPosts'" value="查看未审批的贴子">
+<input type="button" id="animalRelease" onclick="window.location.href='/animalRelease'" value="我要添加动物">
+<input type="button" id="showPassPosts" onclick="window.location.href='/post/showPassPosts'" value="查看pass的帖子">
+<input type="button" id="showDontPassPosts" onclick="window.location.href='/post/showDontPassPosts'" value="查看没pass的帖子">
+<input type="button" id="showAnimals" onclick="window.location.href='/animals/showAnimals'" value="查看未审批的动物">
+<input type="button" id="showPassAnimals" onclick="window.location.href='/animals/showPassAnimals'" value="查看pass的动物">
+<input type="button" id="showDontPassAnimals" onclick="window.location.href='/animals/showDontPassAnimals'" value="查看没pass的动物">
+<input type="button" id="fuzzyQueryPost" onclick="window.location.href='/goFuzzyQueryPost'" value="进入模糊查询帖子页面">
+<input type="button" id="fuzzyQueryAnimals" onclick="window.location.href='/test2'" value="进入模糊查询动物页面">
+</body>
+</html>

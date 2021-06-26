@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <meta name="referrer" content="no-referrer" />
+</head>
+<body>
+<div th:each="dontPassAnimals: ${dontPassAnimals}" style="border: 1px solid black">
+  <p><img th:src="${dontPassAnimals.avatorUrl}" alt="xxx"></p>
+  <p th:text="${dontPassAnimals.id}"></p>
+  <p th:text="${dontPassAnimals.animalName}"></p>
+  <p th:text="${dontPassAnimals.varietyId}"></p>
+  <p th:text="${dontPassAnimals.introduction}"></p>
+  <p th:text="${dontPassAnimals.date}"></p>
+</div>
+</body>
+</html>
