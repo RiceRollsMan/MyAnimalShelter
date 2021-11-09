@@ -92,4 +92,8 @@
     <select id="getDonationCounts" resultType="int">
         select sum(money) from donation
     </select>
+
+    <select id="getTopFiveBodhisattva" resultType="com.ft.animalshelter.pojo.Bodhisattva">
+        select SUM(money) as money,username from donation group by username order by SUM(money) desc limit 0,5
+    </select>
 </mapper>

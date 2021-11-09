@@ -25,4 +25,5 @@ public interface AnimalMapper {
     public List<String> getAnimalsPicWalls(int id);//获取某动物的照片墙照片Url
     public HashMap<String, String> getNameAndPic(int id);//根据id获取动物的姓名和头像
     public List<Animals> showMyFollowAnimals(String username);//根据username查看我关注的动物
+    public void insertIntoPicWall(int id,String url);
 }

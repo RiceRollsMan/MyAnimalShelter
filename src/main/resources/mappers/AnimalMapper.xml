@@ -51,4 +51,8 @@
     <select id="getPassCounts" resultType="int">
         select count(*) from animals where approvalStatus=1
     </select>
+
+    <select id="insertIntoPicWall" >
+        insert into picwall values(#{id},#{url})
+    </select>
 </mapper>

@@ -37,4 +37,5 @@ public interface UserMapper {
     public void useDonation(String useDetails,int donationID);
     public List<User> fuzzyQueryUser(String keyWords);//根据用户名模糊查询
     public int getDonationCounts();
+    public List<Bodhisattva> getTopFiveBodhisattva();//获取前五的捐助
 }

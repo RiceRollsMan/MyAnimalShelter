@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -188,6 +189,11 @@ public class UserController {
     public String getTopFiveBodhisattvaName(Model model,HttpServletRequest request,HttpServletResponse response){
         model.addAttribute("getTopFiveBodhisattvaName",userService.getTopFiveBodhisattvaName());
         model.addAttribute("getTopFiveBodhisattvaMoney",userService.getTopFiveBodhisattvaMoney());
+        return "testWebBack";
+    }
+    @RequestMapping("/getDonationTopFive")
+    public String  getTopFiveBodhisattva(Model model){
+        model.addAttribute("donation",userService.getTopFiveBodhisattva());
         return "testWebBack";
     }
 

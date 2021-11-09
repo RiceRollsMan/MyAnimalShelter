@@ -29,4 +29,5 @@ public interface UserService {
     public int getDonationCounts();//获取捐款总金额
     public List<String> getTopFiveBodhisattvaName();//获得前五菩萨榜的名字
     public List<Integer> getTopFiveBodhisattvaMoney();//获得前五菩萨榜的捐款数额
+    public List<Bodhisattva> getTopFiveBodhisattva();//获取前五的捐助
 }

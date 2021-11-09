@@ -7,8 +7,18 @@
   <script src="/js/jquery-3.6.0.js"></script>
   <script th:inline="javascript">
     function goDetails(id){
-      alert("xxx")
       top.location.href="/post/goDetails?postId="+id;
+    }
+    function getUserPic(id){
+      let username=$("#postUser"+""+id).text()
+      $.get({
+        url:"../user/getUserPic",
+        data:{username:username},
+        success:function (data){
+          let userPic=document.getElementById("postUserPic"+id)
+          userPic.src=data
+        }
+      })
     }
   </script>
 </head>
@@ -17,7 +27,7 @@
   <a href="javascript:void(0);" th:onclick="'javascript: goDetails('+${posts.postId}+')'">
     <!--           postPicUrl='+${passPosts.postPicUrl}-->
     <div style="height: 100%;width: 20%;float: left">
-      <div style="height: 30%;width: 80%;margin: auto;margin-top: 30%"><img src="" style="background-color: black;width: 50px;height: 50px;border-radius: 25px" alt=""></div>
+      <div style="height: 30%;width: 80%;margin: auto;margin-top: 30%"><img src="https://i01piccdn.sogoucdn.com/93f5a1419dbc2e41" th:id="'postUserPic'+${posts.postId}" th:onload="'javascript: getUserPic('+${posts.postId}+')'" style="background-color: black;width: 50px;height: 50px;border-radius: 25px" alt=""></div>
       <div style="height: 10%;width: 80%;margin-left: 5%;margin-top: 5%"><span style="font-size: 12px" id="postUser" th:text="${posts.postUser}"></span></div>
     </div>
 

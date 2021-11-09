@@ -10,7 +10,7 @@
       getUsernameAndAvator()
       getPosition()
       let manageIframe=document.getElementById("manageIframe")
-      manageIframe.src="/testWebBack"
+      manageIframe.src="/user/getDonationTopFive"
     }
     function getUsernameAndAvator(){
       $.get({
@@ -38,6 +38,9 @@
           if(data==1||data==2){
             let adminControl=document.getElementById("adminControl")
             adminControl.style.display="block"
+          }
+          if(data==2)
+          {
             let mangerLi=document.getElementById("mangerLi")
             mangerLi.style.display="inline"
           }
@@ -76,7 +79,7 @@
     }
     function goWebBack(){
       let manageIframe=document.getElementById("manageIframe")
-      manageIframe.src="/testWebBack"
+      manageIframe.src="/user/getDonationTopFive"
     }
   </script>
 </head>

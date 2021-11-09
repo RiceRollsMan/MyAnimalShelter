@@ -16,14 +16,15 @@ public class Bodhisattva {
     private int money;
     private Date date;
     private String useDetails;
+    public Bodhisattva(int money,String username){
+        this.money=money;
+        this.username=username;
+    }
     public Bodhisattva(int donationID,int animalsId,String username,int money){
         this.donationID=donationID;
         this.animalsId=animalsId;
         this.username=username;
         this.money=money;
     }
-    public Bodhisattva(int money,String username){
-        this.money=money;
-        this.username=username;
-    }
+
 }

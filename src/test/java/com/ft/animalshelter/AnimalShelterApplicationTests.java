@@ -198,4 +198,19 @@ class AnimalShelterApplicationTests {
     void testDonationCounts(){
         System.out.println(userMapper.getDonationCounts()) ;
     }
+    @Test
+    void testDonationTopFive(){
+        System.out.println(userMapper.getTopFiveBodhisattva().toString()) ;
+    }
+    @Test
+    void testinsertPic(){
+        animalMapper.insertIntoPicWall(0,"https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00738-1883.jpg");
+        animalMapper.insertIntoPicWall(0,"https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00118-3748.jpg");
+        animalMapper.insertIntoPicWall(0,"https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00757-2784.jpg");
+        animalMapper.insertIntoPicWall(0,"https://img1.baidu.com/it/u=1225680675,2635144528&fm=26&fmt=auto&gp=0.jpg");
+        animalMapper.insertIntoPicWall(0,"https://img0.baidu.com/it/u=2245374175,3694724046&fm=26&fmt=auto&gp=0.jpg");
+        animalMapper.insertIntoPicWall(0,"https://img0.baidu.com/it/u=1974728075,625919050&fm=26&fmt=auto&gp=0.jpg");
+        animalMapper.insertIntoPicWall(0,"https://img2.baidu.com/it/u=3607578338,3874163017&fm=26&fmt=auto&gp=0.jpg");
+        animalMapper.insertIntoPicWall(0,"https://img0.baidu.com/it/u=3978029726,413609483&fm=26&fmt=auto&gp=0.jpg");
+    }
 }

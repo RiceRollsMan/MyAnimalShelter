@@ -7,11 +7,31 @@
 </head>
 <script src="/js/jquery-3.6.0.js"></script>
 <body>
-<div th:each="donation:${donation}">
-    <span th:text="${donation.animalsId}"></span>
-    <span th:text="${donation.money}"></span>
-    <span th:text="${donation.date}"></span>
-    <span th:text="${donation.useDetails}"></span>
-</div>
+<!--<div th:each="donation:${donation}">-->
+<!--    <span th:text="${donation.animalsId}"></span>-->
+<!--    <span th:text="${donation.money}"></span>-->
+<!--    <span th:text="${donation.date}"></span>-->
+<!--    <span th:text="${donation.useDetails}"></span>-->
+<!--</div>-->
+
+<table>
+    <thead >
+    <tr >
+        <td width="5%">捐助对象</td>
+        <td width="5%">捐助金额</td>
+        <td width="5%">捐助日期</td>
+        <td width="5%">捐款使用情况</td>
+        <td width="5%"></td>
+    </tr>
+    </thead>
+    <tbody >
+    <tr th:each="donation:${donation}" style="border-bottom: 1px solid gray">
+        <td th:text="${donation.animalsId}"></td>
+        <td th:text="${donation.money}"></td>
+        <td th:text="${donation.date}"></td>
+        <td th:text="${donation.useDetails}" ></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

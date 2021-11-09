@@ -118,5 +118,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.getTopFiveBodhisattvaMoney();
     }
 
+    @Override
+    public List<Bodhisattva> getTopFiveBodhisattva() {
+        return userMapper.getTopFiveBodhisattva();
+    }
+
 
 }
